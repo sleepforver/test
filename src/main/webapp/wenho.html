@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问候语</title>
+    <style>
+        .morning {
+            color: blue;
+        }
+        .afternoon {
+            color: red;
+        }
+        .evening {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<h1 id="greeting"></h1>
+
+<script>
+    // 获取当前时间
+    const now = new Date();
+    const hours = now.getHours();
+    const greetingElement = document.getElementById('greeting');
+
+    // 根据小时数设置问候语
+    if (hours < 12) {
+        greetingElement.textContent = "早上好！";
+        greetingElement.className = 'morning';
+    } else if (hours < 18) {
+        greetingElement.textContent = "下午好！";
+        greetingElement.className = 'afternoon';
+    } else {
+        greetingElement.textContent = "晚上好！";
+        greetingElement.className = 'evening';
+    }
+</script>
+</body>
+</html>

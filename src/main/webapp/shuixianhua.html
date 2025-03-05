@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水仙花数</title>
+</head>
+<body>
+<h1>100到500之间的水仙花数</h1>
+<ul id="sxhNum"></ul>
+
+<script>
+    function f1() {
+        const resultList = [];
+        for (let num = 100; num <= 500; num++) {
+            const hundreds = Math.floor(num / 100); // 百位
+            const tens = Math.floor((num % 100) / 10); // 十位
+            const units = num % 10; // 个位
+
+            // 计算立方和
+            const sumOfCubes = Math.pow(hundreds, 3) + Math.pow(tens, 3) + Math.pow(units, 3);
+
+            // 判断是否为水仙花数
+            if (num === sumOfCubes) {
+                resultList.push(num);
+            }
+        }
+        return resultList;
+    }
+
+    // 获取水仙花数并显示在页面上
+    const sxhNum = f1();
+    const ul = document.getElementById('sxhNum');
+
+    sxhNum.forEach(num => {
+        const li = document.createElement('li');
+        li.textContent = num;
+        ul.appendChild(li);
+    });
+</script>
+</body>
+</html>

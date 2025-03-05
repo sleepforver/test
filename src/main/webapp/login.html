@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册表单</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>用户注册</h1>
+<form id="registrationForm">
+    <label for="username">用户名:</label>
+    <input type="text" id="username" required>
+    <span class="error" id="usernameError"></span>
+    <br><br>
+
+    <label for="password">密码:</label>
+    <input type="password" id="password" required>
+    <span class="error" id="passwordError"></span>
+    <br><br>
+
+    <label for="confirmPassword">确认密码:</label>
+    <input type="password" id="confirmPassword" required>
+    <span class="error" id="confirmPasswordError"></span>
+    <br><br>
+
+    <label for="email">电子邮箱:</label>
+    <input type="email" id="email" required>
+    <span class="error" id="emailError"></span>
+    <br><br>
+
+    <label for="province">省:</label>
+    <select id="province" required></select>
+    <br><br>
+
+    <label for="city">市: </label>
+    <select id="city" required></select>
+    <br><br>
+
+    <button type="submit">提交</button>
+</form>
+</body>
+<script>
+    // 省市数据
+    const provinces = {
+        '请选择': [],
+        '广东省': ['广州市', '深圳市'],
+        '江苏省': ['南京市', '苏州市'],
+        '浙江省': ['杭州市', '宁波市']
+    };
+
+    // 填充省份下拉框
+    const provinceSelect = document.getElementById('province');
+    for (const province in provinces) {
+        const option = document.createElement('option');
+        option.value = province;
+        option.textContent = province;
+        provinceSelect.appendChild(option);
+    }
+
+    // 根据选中的省份填充城市
+    provinceSelect.addEventListener('change', function() {
+        const citySelect = document.getElementById('city');
+        citySelect.innerHTML = ''; // 清空城市下拉框
+
+        const selectedProvince = this.value;
+        provinces[selectedProvince].forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+    });
+
+    // 表单验证
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 阻止默认提交
+
+        // 清除之前的错误信息
+        document.querySelectorAll('.error').forEach(error => error.textContent = '');
+
+        let isValid = true;
+
+        // 用户名验证
+        const username = document.getElementById('username').value;
+        if (!/^[A-Za-z]/.test(username)) {
+            document.getElementById('usernameError').textContent = '用户名必须以字母开头';
+            isValid = false;
+        }
+
+        // 密码验证
+        const password = document.getElementById('password').value;
+        if (password.length < 6 || password.length > 8) {
+            document.getElementById('passwordError').textContent = '密码必须6-8位';
+            isValid = false;
+        }
+
+        // 确认密码验证
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (password !== confirmPassword) {
+            document.getElementById('confirmPasswordError').textContent = '确认密码必须与密码一致';
+            isValid = false;
+        }
+
+        // 电子邮箱验证
+        const email = document.getElementById('email').value;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 简单的邮箱格式验证
+        if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = '请输入有效的电子邮箱地址';
+            isValid = false;
+        }
+
+        // 如果所有校验通过，可以提交表单
+        if (isValid) {
+            alert('注册成功！');
+            // 在这里可以进行表单提交或其他处理
+            // this.submit(); // 如果需要实际提交表单
+        }
+    });
+</script>
+</html>
